@@ -19,7 +19,7 @@ export DEST_ARCHIVE="${releaseName}"
 
 gulp build
 
-mv ../dest/gamemode.zip ../build/$DEST_ARCHIVE.zip
+mv ../dest/gamemode.zip ../dest/$DEST_ARCHIVE.zip
 
 echo "Release = ${releaseName}"
 echo "Tagged release = ${TAGGED_RELEASE}"
