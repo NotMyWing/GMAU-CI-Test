@@ -12,7 +12,7 @@ node_js:
 
 # Install pre-requisites
 before_install:
-  - sudo apt install luarocks
+  - sudo apt-get install luarocks
   - sudo luarocks install moonscript
 
 # Check if all necessary env. variables are set
