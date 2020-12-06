@@ -16,7 +16,7 @@ before_script:
 
 # Build the game mode and run post-build tasks.
 script:
-  - travis.sh && gulp travis
+  - . travis.sh && gulp travisPostBuild
 
 deploy:
   # Deploy release
