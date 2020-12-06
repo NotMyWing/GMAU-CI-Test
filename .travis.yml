@@ -26,8 +26,11 @@ script:
 deploy:
   # Deploy release
   - provider: releases
+    edge: true
     skip_cleanup: true
     token: "$GITHUB_TOKEN"
+    release_notes_file: dest/changelog.md
+    overwrite: true
     file:
       - ./dest/$DEST_ARCHIVE.zip
 

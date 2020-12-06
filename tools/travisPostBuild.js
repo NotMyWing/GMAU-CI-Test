@@ -2,6 +2,8 @@ const gulp = require('gulp');
 const through = require('through2');
 const mustache = require('mustache');
 const zip = require('gulp-zip');
+const { getLastGitTag, getChangeLog } = require('./util');
+const { writeFileSync } = require('fs');
 
 /**
  * Rewrites the version in shared.lua.
@@ -34,7 +36,31 @@ function zipGamemode() {
 		.pipe(gulp.dest('dest'));
 }
 
+function generateChangeLog(cb) {
+	const tag = getLastGitTag(getLastGitTag());
+
+	if (!tag) {
+		cb("Couldn't fetch the last Git tag");
+	}
+
+	var changelog = getChangeLog(tag);
+	if (!changelog) {
+		cb("Couldn't create a changelog")
+	}
+
+	if (changelog) {
+		changelog = `Changes since ${tag}:\n${changelog}`
+	} else {
+		changelog = `There have been no changes since ${tag}`
+	}
+
+	writeFileSync('dest/changelog.md', changelog);
+
+	cb();
+}
+
 module.exports = [
 	rewriteVersion,
-	zipGamemode
+	// zipGamemode,
+	generateChangeLog
 ]

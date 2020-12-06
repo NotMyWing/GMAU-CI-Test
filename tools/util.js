@@ -1,3 +1,8 @@
+const { execSync } = require('child_process');
+const { get } = require('http');
+
+const exec = require('child_process').execSync;
+
 /**
  * Reads a stream into a buffer.
  * @param {Readable} stream The stream to read.
@@ -56,3 +61,25 @@ checkEnvironmentalVariables = (vars) => {
 }
 
 exports.checkEnvironmentalVariables = checkEnvironmentalVariables;
+
+/**
+ * Fetches the last tag known to git using the current branch.
+ * @param {string | nil} before Tag to get the tag before.
+ * @returns string Git tag.
+ * @throws
+ */
+function getLastGitTag(args) {
+	if (args && args != '') {
+		args = `"${args}^"`;
+	}
+
+	return exec(`git describe --abbrev=0 --tags ${args || ""}`).toString().trim();
+}
+
+exports.getLastGitTag = getLastGitTag;
+
+function getChangeLog(since = "HEAD", to = "HEAD") {
+	return exec(`git log --date="format:%d %b %Y" --pretty="* %s - **%an** (%ad)" ${since}..${to}`).toString().trim();
+}
+
+exports.getChangeLog = getChangeLog;
