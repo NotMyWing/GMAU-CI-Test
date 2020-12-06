@@ -18,6 +18,7 @@ fi
 export DEST_ARCHIVE="${releaseName}"
 
 gulp build
+gulp travisPostBuild
 
 mv ../dest/gamemode.zip ../dest/$DEST_ARCHIVE.zip
 
