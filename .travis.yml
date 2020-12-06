@@ -10,6 +10,11 @@ language: node_js
 node_js:
   - 13
 
+# Install pre-requisites
+before_install:
+  - sudo apt install luarocks
+  - sudo luarocks install moonscript
+
 # Check if all necessary env. variables are set
 before_script:
   - gulp travisChecks
