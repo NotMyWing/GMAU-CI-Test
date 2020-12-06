@@ -1,0 +1,29 @@
+# Only the main branch and tags
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+\.\d+.*$/
+
+language: node_js
+node_js:
+  - 13
+
+# Check if all necessary env. variables are set
+before_script:
+  - gulp travisChecks
+
+# Build the game mode and run post-build tasks.
+script:
+  - travis.sh && gulp travis
+
+deploy:
+  # Deploy release
+  - provider: releases
+    skip_cleanup: true
+    token: "$GITHUB_TOKEN"
+    file:
+      - ./dest/$DEST_ARCHIVE.zip
+
+    on:
+      tags: true
+      condition: $TAGGED_RELEASE = true

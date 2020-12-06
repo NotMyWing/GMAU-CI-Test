@@ -198,3 +198,13 @@ exports.watchScripts = watchScripts;
 exports.build = build;
 exports.watch = watch;
 exports.default = watch;
+
+const travisChecksTasks = require('./tools/travisChecks');
+exports.travisChecks = gulp.series(
+	...travisChecksTasks
+);
+
+const travisPostBuildTasks = require('./tools/travisPostBuild');
+exports.travisPostBuild = gulp.series(
+	...travisPostBuildTasks
+);
