@@ -63,7 +63,7 @@ checkEnvironmentalVariables = (vars) => {
 exports.checkEnvironmentalVariables = checkEnvironmentalVariables;
 
 /**
- * Fetches the last tag known to git using the current branch.
+ * Fetches the last tag known to Git using the current branch.
  * @param {string | nil} before Tag to get the tag before.
  * @returns string Git tag.
  * @throws
@@ -78,6 +78,11 @@ function getLastGitTag(args) {
 
 exports.getLastGitTag = getLastGitTag;
 
+/**
+ * Generates a changelog based on the two provided Git refs.
+ * @param {string} since Lower boundary Git ref.
+ * @param {string} to Upper boundary Git ref.
+ */
 function getChangeLog(since = "HEAD", to = "HEAD") {
 	return exec(`git log --date="format:%d %b %Y" --pretty="* %s - **%an** (%ad)" ${since}..${to}`).toString().trim();
 }

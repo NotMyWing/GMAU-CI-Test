@@ -36,31 +36,36 @@ function zipGamemode() {
 		.pipe(gulp.dest('dest'));
 }
 
+/**
+ * Generates a changelog.
+ */
 function generateChangeLog(cb) {
-	const tag = getLastGitTag(getLastGitTag());
+	if (process.env.TAGGED_RELEASE == 'true') {
+		const tag = getLastGitTag(getLastGitTag());
 
-	if (!tag) {
-		cb("Couldn't fetch the last Git tag");
+		if (!tag) {
+			cb("Couldn't fetch the last Git tag");
+		}
+
+		var changelog = getChangeLog(tag);
+		if (!changelog) {
+			cb("Couldn't create a changelog")
+		}
+
+		if (changelog) {
+			changelog = `Changes since ${tag}:\n${changelog}`
+		} else {
+			changelog = `There have been no changes since ${tag}`
+		}
+
+		writeFileSync('dest/changelog.md', changelog);
 	}
-
-	var changelog = getChangeLog(tag);
-	if (!changelog) {
-		cb("Couldn't create a changelog")
-	}
-
-	if (changelog) {
-		changelog = `Changes since ${tag}:\n${changelog}`
-	} else {
-		changelog = `There have been no changes since ${tag}`
-	}
-
-	writeFileSync('dest/changelog.md', changelog);
 
 	cb();
 }
 
 module.exports = [
 	rewriteVersion,
-	// zipGamemode,
+	zipGamemode,
 	generateChangeLog
 ]
