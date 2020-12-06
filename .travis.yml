@@ -1,3 +1,5 @@
+dist: focal
+
 # Only the main branch and tags
 branches:
   only:
